@@ -1,0 +1,360 @@
+{
+  "schemas": {
+    "CertificationRequest": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Raw nonfiction text to be certified",
+          "minLength": 100
+        },
+        "cert_type": {
+          "type": "string",
+          "enum": ["CORE_AUTHORSHIP", "LOGIC_FRAGMENT", "DERIVATIVE"],
+          "description": "Type of certification requested"
+        },
+        "author_id": {
+          "type": "string",
+          "description": "Optional author identifier",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "author_name": {
+          "type": "string",
+          "description": "Optional author name for display"
+        },
+        "title": {
+          "type": "string",
+          "description": "Optional content title"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Optional additional metadata"
+        }
+      },
+      "required": ["content", "cert_type"],
+      "additionalProperties": false
+    },
+
+    "CertificationResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Whether certification was successful"
+        },
+        "cert_id": {
+          "type": "string",
+          "description": "Unique certification identifier"
+        },
+        "ics_hash": {
+          "type": "string",
+          "description": "ICS combined hash for verification"
+        },
+        "certification_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Overall certification score (0-1)"
+        },
+        "analysis_summary": {
+          "type": "object",
+          "properties": {
+            "structural_integrity": {"type": "number", "minimum": 0, "maximum": 1},
+            "logic_continuity": {"type": "number", "minimum": 0, "maximum": 1},
+            "convergence_achieved": {"type": "boolean"},
+            "boundaries_satisfied": {"type": "boolean"},
+            "suppression_score": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "issues": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of identified issues"
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of improvement recommendations"
+        },
+        "verification_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL for verifying this certification"
+        },
+        "badge_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL for certification badge"
+        },
+        "processing_time": {
+          "type": "number",
+          "description": "Processing time in seconds"
+        }
+      },
+      "required": ["success", "cert_id", "certification_score", "issues", "recommendations"],
+      "additionalProperties": false
+    },
+
+    "VerificationRequest": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Content to verify"
+        },
+        "ics_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "ICS hash to verify against"
+        },
+        "signature_data": {
+          "type": "string",
+          "description": "Complete ICS signature as JSON string"
+        }
+      },
+      "anyOf": [
+        {"required": ["content", "ics_hash"]},
+        {"required": ["content", "signature_data"]}
+      ],
+      "additionalProperties": false
+    },
+
+    "VerificationResponse": {
+      "type": "object",
+      "properties": {
+        "valid": {
+          "type": "boolean",
+          "description": "Whether verification passed"
+        },
+        "cert_id": {
+          "type": "string",
+          "description": "Certificate identifier"
+        },
+        "issued_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Original certification timestamp"
+        },
+        "cert_type": {
+          "type": "string",
+          "description": "Type of certification"
+        },
+        "operator": {
+          "type": "string",
+          "description": "Certification operator"
+        },
+        "errors": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Verification error messages if invalid"
+        }
+      },
+      "required": ["valid"],
+      "additionalProperties": false
+    },
+
+    "ICSSignature": {
+      "type": "object",
+      "properties": {
+        "fingerprint": {
+          "type": "object",
+          "properties": {
+            "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "structure_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "logic_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "combined_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "fingerprint_algorithm": {"type": "string", "enum": ["sha256"]}
+          },
+          "required": ["content_hash", "structure_hash", "logic_hash", "combined_hash", "fingerprint_algorithm"]
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "cert_id": {"type": "string"},
+            "timestamp": {"type": "string", "format": "date-time"},
+            "operator": {"type": "string"},
+            "system_version": {"type": "string"},
+            "processing_versions": {
+              "type": "object",
+              "properties": {
+                "CDP": {"type": "string"},
+                "FRAME": {"type": "string"},
+                "STRIDE": {"type": "string"}
+              }
+            },
+            "content_type": {"type": "string"},
+            "author_signature": {"type": ["string", "null"]}
+          },
+          "required": ["cert_id", "timestamp", "operator", "system_version", "content_type"]
+        },
+        "analysis_summary": {
+          "type": "object",
+          "properties": {
+            "cdp_analysis": {
+              "type": "object",
+              "properties": {
+                "overall_slope": {"type": "string"},
+                "structural_integrity": {"type": "number"},
+                "logic_continuity": {"type": "number"},
+                "convergence_achieved": {"type": "boolean"},
+                "total_paragraphs": {"type": "integer"}
+              }
+            },
+            "frame_analysis": {
+              "type": "object",
+              "properties": {
+                "boundaries_satisfied": {"type": "boolean"},
+                "structural_score": {"type": "number"},
+                "taper_achieved": {"type": "boolean"},
+                "slope_resolution": {"type": "boolean"},
+                "violation_count": {"type": "integer"}
+              }
+            },
+            "stride_analysis": {
+              "type": "object",
+              "properties": {
+                "suppression_needed": {"type": "boolean"},
+                "suppression_score": {"type": "number"},
+                "tone_neutrality": {"type": "number"},
+                "drift_detected": {"type": "boolean"},
+                "drift_severity": {"type": "number"}
+              }
+            }
+          }
+        },
+        "vault_anchor": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "verification_data": {
+          "type": "object",
+          "properties": {
+            "verification_algorithm": {"type": "string"},
+            "content_length": {"type": "integer"},
+            "word_count": {"type": "integer"},
+            "paragraph_count": {"type": "integer"},
+            "cert_type": {"type": "string"},
+            "processing_timestamp": {"type": "string", "format": "date-time"},
+            "verification_url": {"type": "string", "format": "uri"},
+            "badge_url": {"type": "string", "format": "uri"},
+            "vault_url": {"type": "string", "format": "uri"}
+          }
+        }
+      },
+      "required": ["fingerprint", "metadata", "analysis_summary", "vault_anchor", "verification_data"],
+      "additionalProperties": false
+    },
+
+    "SystemStatus": {
+      "type": "object",
+      "properties": {
+        "system_version": {"type": "string"},
+        "operator": {"type": "string"},
+        "component_versions": {
+          "type": "object",
+          "properties": {
+            "CDP": {"type": "string"},
+            "FRAME": {"type": "string"},
+            "STRIDE": {"type": "string"}
+          }
+        },
+        "genesis_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "supported_cert_types": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "status": {"type": "string", "enum": ["operational", "maintenance", "error"]}
+      },
+      "required": ["system_version", "operator", "status"],
+      "additionalProperties": false
+    },
+
+    "BadgeData": {
+      "type": "object",
+      "properties": {
+        "cert_id": {"type": "string"},
+        "badge_type": {"type": "string"},
+        "cert_type": {"type": "string"},
+        "issued_date": {"type": "string", "format": "date-time"},
+        "operator": {"type": "string"},
+        "verification_url": {"type": "string", "format": "uri"},
+        "badge_url": {"type": "string", "format": "uri"},
+        "vault_anchor": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "structural_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "convergence_achieved": {"type": "boolean"}
+      },
+      "required": ["cert_id", "badge_type", "cert_type", "issued_date", "operator"],
+      "additionalProperties": false
+    },
+
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": {"type": "string"},
+        "error_code": {"type": "string"},
+        "message": {"type": "string"},
+        "details": {"type": "object"},
+        "timestamp": {"type": "string", "format": "date-time"}
+      },
+      "required": ["error", "message"],
+      "additionalProperties": false
+    }
+  },
+
+  "api_endpoints": {
+    "/certify": {
+      "method": "POST",
+      "request_schema": "CertificationRequest",
+      "response_schema": "CertificationResponse",
+      "description": "Certify nonfiction content"
+    },
+    "/verify": {
+      "method": "POST",
+      "request_schema": "VerificationRequest",
+      "response_schema": "VerificationResponse",
+      "description": "Verify certification"
+    },
+    "/verify/{hash}": {
+      "method": "GET",
+      "response_schema": "VerificationResponse",
+      "description": "Verify certification by hash"
+    },
+    "/badge/{cert_id}": {
+      "method": "GET",
+      "response_schema": "BadgeData",
+      "description": "Get badge data for certificate"
+    },
+    "/status": {
+      "method": "GET",
+      "response_schema": "SystemStatus",
+      "description": "Get system status"
+    }
+  },
+
+  "validation_rules": {
+    "content_requirements": {
+      "min_length": 100,
+      "min_paragraphs": 2,
+      "max_length": 50000,
+      "allowed_formats": ["text/plain", "text/markdown"]
+    },
+    "certification_thresholds": {
+      "min_certification_score": 0.6,
+      "min_structural_integrity": 0.5,
+      "min_logic_continuity": 0.4,
+      "max_suppression_score": 0.7,
+      "max_drift_severity": 0.7
+    },
+    "security_constraints": {
+      "max_requests_per_hour": 100,
+      "max_content_size_mb": 1,
+      "require_https": true,
+      "validate_input_encoding": true
+    }
+  },
+
+  "metadata": {
+    "schema_version": "1.0.0",
+    "last_updated": "2025-01-18",
+    "description": "CertNode API and data schemas for nonfiction certification",
+    "contact": "SRB Creative Holdings LLC"
+  }
+}
+

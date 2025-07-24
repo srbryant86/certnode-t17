@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  certnode-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: certnode-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - CERTNODE_ENV=production
+      - CERTNODE_DEBUG=false
+      - CERTNODE_LOG_LEVEL=INFO
+      - CERTNODE_API_HOST=0.0.0.0
+      - CERTNODE_API_PORT=8000
+    volumes:
+      - certnode_vault:/app/vault
+      - certnode_logs:/app/logs
+      - certnode_certs:/app/certified_outputs
+      - certnode_badges:/app/trust_badges
+    networks:
+      - certnode_network
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  certnode-nginx:
+    image: nginx:alpine
+    container_name: certnode-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/certnode.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - certnode_static:/var/www/static
+    depends_on:
+      - certnode-api
+    networks:
+      - certnode_network
+
+  certnode-redis:
+    image: redis:7-alpine
+    container_name: certnode-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass certnode_redis_pass
+    volumes:
+      - certnode_redis:/data
+    networks:
+      - certnode_network
+
+  certnode-backup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: certnode-backup
+    restart: "no"
+    environment:
+      - CERTNODE_ENV=production
+    volumes:
+      - certnode_vault:/app/vault:ro
+      - certnode_backups:/app/backups
+    networks:
+      - certnode_network
+    command: ["backup"]
+    profiles:
+      - backup
+
+volumes:
+  certnode_vault:
+    driver: local
+  certnode_logs:
+    driver: local
+  certnode_certs:
+    driver: local
+  certnode_badges:
+    driver: local
+  certnode_redis:
+    driver: local
+  certnode_static:
+    driver: local
+  certnode_backups:
+    driver: local
+
+networks:
+  certnode_network:
+    driver: bridge
+

@@ -23,7 +23,7 @@ class CertNodeConfig:
 
     # Operator Information
     OPERATOR = "SRB Creative Holdings LLC"
-    SYSTEM_NAME = "CertNode"
+    SYSTEM_NAME = "CertNode T17+ Logic Governance Infrastructure"
     PROTOCOL_NAME = "CDP"
 
     # Certification Classes

@@ -1,0 +1,2 @@
+{"timestamp": "2025-07-24T06:31:22.767487", "component": "CDP", "level": "INFO", "message": "Starting CDP processing", "metadata": {"author_id": null}}
+{"timestamp": "2025-07-24T06:31:22.767602", "component": "CDP", "level": "INFO", "message": "CDP processing completed", "metadata": {"convergence_achieved": false, "structural_integrity": 0.0}}

@@ -19,7 +19,7 @@ class CertNodeConfig:
     CDP_VERSION = "v1.0.3"
     SECL_VERSION = "v1.0"
     LCL_VERSION = "v1.1"
-    CERTNODE_VERSION = "v1.0.0"
+    CERTNODE_VERSION = "T17+ v2.0.0"
 
     # Operator Information
     OPERATOR = "SRB Creative Holdings LLC"

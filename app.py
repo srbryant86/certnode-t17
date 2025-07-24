@@ -462,21 +462,30 @@ class CertNodeAPI:
     def api_info(self):
         """GET / - API information."""
         return jsonify({
-            "name": "CertNode API",
-            "version": "1.0.0",
-            "description": "Nonfiction Logic Certification System",
+            "name": "CertNode T17+ Logic Governance Infrastructure",
+            "version": self.config.CERTNODE_VERSION,
+            "description": "Institutional-Grade Logic Governance & Certification System",
             "operator": self.config.OPERATOR,
+            "system_architecture": {
+                "CDP": f"Cognitive Density Processor {self.config.CDP_VERSION}",
+                "FRAME": f"Formal Reasoning Analysis Module Engine {self.config.FRAME_VERSION}",
+                "STRIDE": f"Structural Reasoning Intelligence & Density Engine {self.config.STRIDE_VERSION}",
+                "ICS": "Integrated Certification System",
+                "VAULT": "Secure Certificate Storage"
+            },
             "documentation": "/api/v1/status",
             "health": "/health",
             "endpoints": {
-                "certify": "POST /api/v1/certify",
-                "verify": "POST /api/v1/verify",
-                "verify_hash": "GET /api/v1/verify/{hash}",
-                "badge": "GET /api/v1/badge/{cert_id}",
-                "status": "GET /api/v1/status",
-                "vault_stats": "GET /api/v1/vault/stats",
-                "vault_search": "GET /api/v1/vault/search"
-            }
+                "certify": "POST /api/v1/certify - Process content through T17+ pipeline",
+                "verify": "POST /api/v1/verify - Verify certificate authenticity",
+                "verify_hash": "GET /api/v1/verify/{hash} - Verify by hash",
+                "badge": "GET /api/v1/badge/{cert_id} - Generate certification badge",
+                "status": "GET /api/v1/status - System status and metrics",
+                "vault_stats": "GET /api/v1/vault/stats - Vault statistics",
+                "vault_search": "GET /api/v1/vault/search - Search certificates"
+            },
+            "processing_pipeline": "Content → CDP → FRAME → STRIDE → ICS → VAULT",
+            "certification_standards": "T17+ Institutional Logic Governance"
         })
 
     def run(self, host: str = '0.0.0.0', port: int = 8000, debug: bool = False):

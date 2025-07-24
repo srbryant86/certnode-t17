@@ -1,0 +1,82 @@
+{
+  "request": {
+    "title": null,
+    "cert_type": "LOGIC_FRAGMENT",
+    "author_name": null,
+    "content_length": 227,
+    "word_count": 32
+  },
+  "cdp_analysis": {
+    "paragraphs": [],
+    "overall_slope": "THEORETICAL",
+    "structural_integrity": 0.0,
+    "logic_continuity": 1.0,
+    "convergence_achieved": false,
+    "processing_metadata": {
+      "total_paragraphs": 0,
+      "total_words": 0,
+      "processing_version": "v1.0.3",
+      "author_id": null
+    }
+  },
+  "frame_analysis": {
+    "boundaries_satisfied": false,
+    "boundary_violations": [
+      "Insufficient paragraphs: 0 < 2.0",
+      "Low structural integrity: 0.00 < 0.5"
+    ],
+    "taper_analysis": {
+      "taper_achieved": false,
+      "taper_score": 0.5,
+      "taper_pattern": "insufficient_length",
+      "resolution_strength": 0.0
+    },
+    "slope_resolution": false,
+    "structural_score": 0.43999999999999995,
+    "logical_consistency": 1.0,
+    "evidence_quality": 0.0,
+    "reasoning_clarity": 0.0,
+    "recommendations": [
+      "Add more paragraphs to develop logic fully",
+      "Strengthen logical conclusion to achieve slope resolution"
+    ],
+    "metadata": {
+      "frame_version": "v3.0.1",
+      "boundaries_checked": 6,
+      "processing_timestamp": "2025-07-24T06:31:22.767786"
+    }
+  },
+  "stride_analysis": {
+    "tone_analysis": {
+      "tone_neutrality": 0.0,
+      "emotional_markers": [],
+      "persuasion_intensity": 0.0,
+      "objectivity_score": 0.0
+    },
+    "rhythm_analysis": {
+      "rhythm_detected": false,
+      "rhythm_score": 0.0,
+      "rhythm_patterns": [],
+      "sentence_variation": 0.0
+    },
+    "drift_detection": {
+      "rhetorical_drift": false,
+      "style_drift": false,
+      "emotional_drift": false,
+      "drift_severity": 0.0,
+      "drift_markers": []
+    },
+    "suppression_needed": false,
+    "suppression_score": 0.3,
+    "recommendations": [
+      "Increase tone neutrality by removing subjective language"
+    ],
+    "metadata": {
+      "stride_version": "L1\u2191.3",
+      "processing_timestamp": "2025-07-24T06:31:22.767942",
+      "total_paragraphs": 0
+    }
+  },
+  "ics_signature": null,
+  "generated_timestamp": "2025-07-24T02:31:22.768268"
+}

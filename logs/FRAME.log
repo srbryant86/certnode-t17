@@ -1,0 +1,2 @@
+{"timestamp": "2025-07-24T06:31:22.767683", "component": "FRAME", "level": "INFO", "message": "Starting FRAME processing", "metadata": {"paragraph_count": 0, "overall_slope": "THEORETICAL"}}
+{"timestamp": "2025-07-24T06:31:22.767798", "component": "FRAME", "level": "INFO", "message": "FRAME processing completed", "metadata": {"boundaries_satisfied": false, "structural_score": 0.43999999999999995}}

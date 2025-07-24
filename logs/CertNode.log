@@ -1,0 +1,7 @@
+{"timestamp": "2025-07-24T06:28:43.470358", "component": "CertNode", "level": "INFO", "message": "CertNode processor initialized", "metadata": {"version": "v1.0.0", "operator": "SRB Creative Holdings LLC"}}
+{"timestamp": "2025-07-24T06:30:39.105582", "component": "CertNode", "level": "INFO", "message": "CertNode processor initialized", "metadata": {"version": "v1.0.0", "operator": "SRB Creative Holdings LLC"}}
+{"timestamp": "2025-07-24T06:31:22.767275", "component": "CertNode", "level": "INFO", "message": "Starting content certification", "metadata": {"content_length": 227, "cert_type": "LOGIC_FRAGMENT", "author_id": null, "title": null}}
+{"timestamp": "2025-07-24T06:31:22.767445", "component": "CertNode", "level": "INFO", "message": "Running CDP analysis", "metadata": {}}
+{"timestamp": "2025-07-24T06:31:22.767636", "component": "CertNode", "level": "INFO", "message": "Running FRAME analysis", "metadata": {}}
+{"timestamp": "2025-07-24T06:31:22.767828", "component": "CertNode", "level": "INFO", "message": "Running STRIDE analysis", "metadata": {}}
+{"timestamp": "2025-07-24T06:31:22.768529", "component": "CertNode", "level": "INFO", "message": "Content certification completed", "metadata": {"success": false, "cert_id": "FAILED", "certification_score": 0.44899999999999995, "processing_time": 0.001246, "issues_count": 3}}

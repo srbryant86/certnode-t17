@@ -1,0 +1,2 @@
+{"timestamp": "2025-07-24T06:31:22.767852", "component": "STRIDE", "level": "INFO", "message": "Starting STRIDE processing", "metadata": {"paragraph_count": 0, "convergence_achieved": false}}
+{"timestamp": "2025-07-24T06:31:22.767951", "component": "STRIDE", "level": "INFO", "message": "STRIDE processing completed", "metadata": {"suppression_needed": false, "suppression_score": 0.3, "drift_detected": false}}

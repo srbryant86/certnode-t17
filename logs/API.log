@@ -1,0 +1,6 @@
+{"timestamp": "2025-07-24T06:28:43.480223", "component": "API", "level": "INFO", "message": "CertNode API server initialized", "metadata": {}}
+{"timestamp": "2025-07-24T06:28:43.480322", "component": "API", "level": "INFO", "message": "Starting CertNode API server on 0.0.0.0:8000", "metadata": {}}
+{"timestamp": "2025-07-24T06:30:39.113446", "component": "API", "level": "INFO", "message": "CertNode API server initialized", "metadata": {}}
+{"timestamp": "2025-07-24T06:30:39.113531", "component": "API", "level": "INFO", "message": "Starting CertNode API server on 0.0.0.0:8000", "metadata": {}}
+{"timestamp": "2025-07-24T06:30:58.122725", "component": "API", "level": "ERROR", "message": "API status check failed: 'VaultManager' object has no attribute 'get_vault_stats'", "metadata": {}}
+{"timestamp": "2025-07-24T06:31:22.768592", "component": "API", "level": "INFO", "message": "Content certification completed via API", "metadata": {"success": false, "cert_id": "FAILED", "processing_time": 0.0013179779052734375, "client_ip": "127.0.0.1"}}
